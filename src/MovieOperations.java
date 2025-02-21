@@ -14,7 +14,7 @@ public class MovieOperations {
 
 
     public MovieOperations(List<Movie> movies) {
-        this.movies = movies;
+        this.movies = List.copyOf(movies);
     }
 
     //Högre ordningens funktion
