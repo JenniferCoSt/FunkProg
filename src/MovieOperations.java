@@ -6,15 +6,18 @@ import static java.util.stream.Collectors.*;
 public class MovieOperations {
 
     private final List<Movie> movies;
+    private final FilterByYear getYear = (f, y) -> f.getYear() == y;
     private final MovieAttribute getCast = f -> f.getCast().stream();
     private final MovieAttribute getLanguages = f -> f.getLanguages().stream();
     private final MovieAttribute getGenres = f -> f.getGenres().stream();
+
+
 
     public MovieOperations(List<Movie> movies) {
         this.movies = movies;
     }
 
-    //Högre ordningens funktioner
+    //Högre ordningens funktion
     public boolean filterbyYearIn(Movie movie, int year, FilterByYear fby) {
         return fby.yearFilter(movie, year);
     }
@@ -30,7 +33,7 @@ public class MovieOperations {
     //Metoder med svar på frågorna
     public int countMoviesFromYearIn(int inputYear) {
         return (int) movies.stream()
-                .filter(m -> filterbyYearIn(m, inputYear, (f, y) -> f.getYear() == y))
+                .filter(m -> filterbyYearIn(m, inputYear, getYear))
                 .count();
     }
 
@@ -48,7 +51,7 @@ public class MovieOperations {
     }
 
     public int amountOfGenresYear(int inputYear) {
-        return (int) movies.stream().filter(m -> filterbyYearIn(m, inputYear, (f, y) -> f.getYear() == y))
+        return (int) movies.stream().filter(m -> filterbyYearIn(m, inputYear, getYear))
                 .flatMap(m -> getMovieAttribute(m, getGenres))
                 .distinct()
                 .count();
